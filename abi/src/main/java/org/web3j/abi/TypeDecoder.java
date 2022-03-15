@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * <p>Bowhead Contract Application Binary Interface (ABI) decoding for types.
  * Decoding is not documented, but is the reverse of the encoding details located
- * <a href="https://github.com/bowhead/wiki/wiki/Bowhead-Contract-ABI">here</a>.
+ * <a href="https://github.com/ethereum/wiki/wiki/Bowhead-Contract-ABI">here</a>.
  * </p>
  */
 public class TypeDecoder {

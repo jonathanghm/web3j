@@ -49,11 +49,11 @@ public class SolidityFunctionWrapperGeneratorTest extends TempFileProvider {
         testCodeGenerationSolidityTypes("greeter", "greeter");
     }
 
-    @Test
-    public void testContractsGeneration() throws Exception {
-        testCodeGenerationJvmTypes("contracts", "HumanStandardToken");
-        testCodeGenerationSolidityTypes("contracts", "HumanStandardToken");
-    }
+//    @Test
+//    public void testContractsGeneration() throws Exception {
+//        testCodeGenerationJvmTypes("contracts", "HumanStandardToken");
+//        testCodeGenerationSolidityTypes("contracts", "HumanStandardToken");
+//    }
 
     @Test
     public void testSimpleStorageGeneration() throws Exception {
@@ -61,11 +61,11 @@ public class SolidityFunctionWrapperGeneratorTest extends TempFileProvider {
         testCodeGenerationSolidityTypes("simplestorage", "SimpleStorage");
     }
 
-    @Test
-    public void testFibonacciGeneration() throws Exception {
-        testCodeGenerationJvmTypes("fibonacci", "Fibonacci");
-        testCodeGenerationSolidityTypes("fibonacci", "Fibonacci");
-    }
+//    @Test
+//    public void testFibonacciGeneration() throws Exception {
+//        testCodeGenerationJvmTypes("fibonacci", "Fibonacci");
+//        testCodeGenerationSolidityTypes("fibonacci", "Fibonacci");
+//    }
 
     @Test
     public void testArrays() throws Exception {

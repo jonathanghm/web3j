@@ -24,7 +24,7 @@ import static org.web3j.abi.datatypes.Type.MAX_BYTE_LENGTH;
 /**
  * <p>Bowhead Contract Application Binary Interface (ABI) encoding for types.
  * Further details are available
- * <a href="https://github.com/bowhead/wiki/wiki/Bowhead-Contract-ABI">here</a>.
+ * <a href="https://github.com/ethereum/wiki/wiki/Bowhead-Contract-ABI">here</a>.
  * </p>
  */
 public class TypeEncoder {

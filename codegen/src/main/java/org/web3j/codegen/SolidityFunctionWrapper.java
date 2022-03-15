@@ -43,7 +43,7 @@ import org.web3j.protocol.ObjectMapperFactory;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.RemoteCall;
-import org.web3j.protocol.core.methods.request.EthFilter;
+import org.web3j.protocol.core.methods.request.AhtFilter;
 import org.web3j.protocol.core.methods.response.AbiDefinition;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
@@ -580,7 +580,7 @@ public class SolidityFunctionWrapper extends Generator {
                     CodeBlock.Builder callCode = CodeBlock.builder();
                     callCode.addStatement(
                             "$T result = "
-                            + "($T) executeCallSingleValueReturn(function, $T.class)",
+                                    + "($T) executeCallSingleValueReturn(function, $T.class)",
                             listType, listType, nativeReturnTypeName);
                     callCode.addStatement("return convertToNative(result)");
 
@@ -726,7 +726,7 @@ public class SolidityFunctionWrapper extends Generator {
                 .build();
 
         observableMethodBuilder.addStatement("$1T filter = new $1T($2L, $3L, "
-                + "getContractAddress())", EthFilter.class, START_BLOCK, END_BLOCK)
+                + "getContractAddress())", AhtFilter.class, START_BLOCK, END_BLOCK)
                 .addStatement("filter.addSingleTopic($T.encode(event))", EventEncoder.class)
                 .addStatement("return web3j.ethLogObservable(filter).map($L)", converter);
 
@@ -758,7 +758,7 @@ public class SolidityFunctionWrapper extends Generator {
 
         transactionMethodBuilder.addStatement("$T valueList = extractEventParametersWithLog(event, "
                 + "transactionReceipt)", ParameterizedTypeName.get(List.class,
-                        Contract.EventValuesWithLog.class))
+                Contract.EventValuesWithLog.class))
                 .addStatement("$1T responses = new $1T(valueList.size())",
                         ParameterizedTypeName.get(ClassName.get(ArrayList.class),
                                 ClassName.get("", responseClassName)))
@@ -941,8 +941,8 @@ public class SolidityFunctionWrapper extends Generator {
 
         CodeBlock.Builder tupleConstructor = CodeBlock.builder();
         tupleConstructor.addStatement(
-                        "$T results = executeCallMultipleValueReturn(function)",
-                        ParameterizedTypeName.get(List.class, Type.class))
+                "$T results = executeCallMultipleValueReturn(function)",
+                ParameterizedTypeName.get(List.class, Type.class))
                 .add("return new $T(", tupleType)
                 .add("$>$>");
 
@@ -977,7 +977,7 @@ public class SolidityFunctionWrapper extends Generator {
             }
 
             tupleConstructor
-                .add(resultString, convertTo, i);
+                    .add(resultString, convertTo, i);
             tupleConstructor.add(i < size - 1 ? ", " : ");\n");
         }
         tupleConstructor.add("$<$<");

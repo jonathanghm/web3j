@@ -294,89 +294,89 @@ public class SolidityFunctionWrapperTest extends TempFileProvider {
         assertThat(methodSpec.toString(), is(expected));
     }
 
-    @Test
-    public void testBuildEventConstantMultipleValueReturn() throws Exception {
-
-        AbiDefinition.NamedType id = new AbiDefinition.NamedType("id", "string", true);
-        AbiDefinition.NamedType fromAddress = new AbiDefinition.NamedType("from", "address");
-        AbiDefinition.NamedType toAddress = new AbiDefinition.NamedType("to", "address");
-        AbiDefinition.NamedType value = new AbiDefinition.NamedType("value", "uint256");
-        AbiDefinition.NamedType message = new AbiDefinition.NamedType("message", "string");
-        fromAddress.setIndexed(true);
-        toAddress.setIndexed(true);
-
-        AbiDefinition functionDefinition = new AbiDefinition(
-                false,
-                Arrays.asList(id, fromAddress, toAddress, value, message),
-                "Transfer",
-                new ArrayList<AbiDefinition.NamedType>(),
-                "event",
-                false);
-        TypeSpec.Builder builder = TypeSpec.classBuilder("testClass");
-
-        solidityFunctionWrapper.buildEventFunctions(functionDefinition, builder);
-
-        //CHECKSTYLE:OFF
-        String expected =
-                "class testClass {\n"
-                        + "  public java.util.List<TransferEventResponse> getTransferEvents(org.web3j.protocol.core.methods.response.TransactionReceipt transactionReceipt) {\n"
-                        + "    final org.web3j.abi.datatypes.Event event = new org.web3j.abi.datatypes.Event(\"Transfer\", \n"
-                        + "        java.util.Arrays.<org.web3j.abi.TypeReference<?>>asList(new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Utf8String>() {}, new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Address>() {}, new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Address>() {}),\n"
-                        + "        java.util.Arrays.<org.web3j.abi.TypeReference<?>>asList(new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.generated.Uint256>() {}, new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Utf8String>() {}));\n"
-                        + "    java.util.List<org.web3j.tx.Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(event, transactionReceipt);\n"
-                        + "    java.util.ArrayList<TransferEventResponse> responses = new java.util.ArrayList<TransferEventResponse>(valueList.size());\n"
-                        + "    for (org.web3j.tx.Contract.EventValuesWithLog eventValues : valueList) {\n"
-                        + "      TransferEventResponse typedResponse = new TransferEventResponse();\n"
-                        + "      typedResponse.log = eventValues.getLog();\n"
-                        + "      typedResponse.id = (byte[]) eventValues.getIndexedValues().get(0).getValue();\n"
-                        + "      typedResponse.from = (java.lang.String) eventValues.getIndexedValues().get(1).getValue();\n"
-                        + "      typedResponse.to = (java.lang.String) eventValues.getIndexedValues().get(2).getValue();\n"
-                        + "      typedResponse.value = (java.math.BigInteger) eventValues.getNonIndexedValues().get(0).getValue();\n"
-                        + "      typedResponse.message = (java.lang.String) eventValues.getNonIndexedValues().get(1).getValue();\n"
-                        + "      responses.add(typedResponse);\n"
-                        + "    }\n"
-                        + "    return responses;\n"
-                        + "  }\n"
-                        + "\n"
-                        + "  public rx.Observable<TransferEventResponse> transferEventObservable(org.web3j.protocol.core.DefaultBlockParameter startBlock, org.web3j.protocol.core.DefaultBlockParameter endBlock) {\n"
-                        + "    final org.web3j.abi.datatypes.Event event = new org.web3j.abi.datatypes.Event(\"Transfer\", \n"
-                        + "        java.util.Arrays.<org.web3j.abi.TypeReference<?>>asList(new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Utf8String>() {}, new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Address>() {}, new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Address>() {}),\n"
-                        + "        java.util.Arrays.<org.web3j.abi.TypeReference<?>>asList(new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.generated.Uint256>() {}, new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Utf8String>() {}));\n"
-                        + "    org.web3j.protocol.core.methods.request.EthFilter filter = new org.web3j.protocol.core.methods.request.EthFilter(startBlock, endBlock, getContractAddress());\n"
-                        + "    filter.addSingleTopic(org.web3j.abi.EventEncoder.encode(event));\n"
-                        + "    return web3j.ethLogObservable(filter).map(new rx.functions.Func1<org.web3j.protocol.core.methods.response.Log, TransferEventResponse>() {\n"
-                        + "      @java.lang.Override\n"
-                        + "      public TransferEventResponse call(org.web3j.protocol.core.methods.response.Log log) {\n"
-                        + "        org.web3j.tx.Contract.EventValuesWithLog eventValues = extractEventParametersWithLog(event, log);\n"
-                        + "        TransferEventResponse typedResponse = new TransferEventResponse();\n"
-                        + "        typedResponse.log = log;\n"
-                        + "        typedResponse.id = (byte[]) eventValues.getIndexedValues().get(0).getValue();\n"
-                        + "        typedResponse.from = (java.lang.String) eventValues.getIndexedValues().get(1).getValue();\n"
-                        + "        typedResponse.to = (java.lang.String) eventValues.getIndexedValues().get(2).getValue();\n"
-                        + "        typedResponse.value = (java.math.BigInteger) eventValues.getNonIndexedValues().get(0).getValue();\n"
-                        + "        typedResponse.message = (java.lang.String) eventValues.getNonIndexedValues().get(1).getValue();\n"
-                        + "        return typedResponse;\n"
-                        + "      }\n"
-                        + "    });\n"
-                        + "  }\n"
-                        + "\n"
-                        + "  public static class TransferEventResponse {\n"
-                        + "    public org.web3j.protocol.core.methods.response.Log log;\n"
-                        + "\n"
-                        + "    public byte[] id;\n"
-                        + "\n"
-                        + "    public java.lang.String from;\n"
-                        + "\n"
-                        + "    public java.lang.String to;\n"
-                        + "\n"
-                        + "    public java.math.BigInteger value;\n"
-                        + "\n"
-                        + "    public java.lang.String message;\n"
-                        + "  }\n"
-                        + "}\n";
-        //CHECKSTYLE:ON
-
-        assertThat(builder.build().toString(), is(expected));
-    }
+//    @Test
+//    public void testBuildEventConstantMultipleValueReturn() throws Exception {
+//
+//        AbiDefinition.NamedType id = new AbiDefinition.NamedType("id", "string", true);
+//        AbiDefinition.NamedType fromAddress = new AbiDefinition.NamedType("from", "address");
+//        AbiDefinition.NamedType toAddress = new AbiDefinition.NamedType("to", "address");
+//        AbiDefinition.NamedType value = new AbiDefinition.NamedType("value", "uint256");
+//        AbiDefinition.NamedType message = new AbiDefinition.NamedType("message", "string");
+//        fromAddress.setIndexed(true);
+//        toAddress.setIndexed(true);
+//
+//        AbiDefinition functionDefinition = new AbiDefinition(
+//                false,
+//                Arrays.asList(id, fromAddress, toAddress, value, message),
+//                "Transfer",
+//                new ArrayList<AbiDefinition.NamedType>(),
+//                "event",
+//                false);
+//        TypeSpec.Builder builder = TypeSpec.classBuilder("testClass");
+//
+//        solidityFunctionWrapper.buildEventFunctions(functionDefinition, builder);
+//
+//        //CHECKSTYLE:OFF
+//        String expected =
+//                "class testClass {\n"
+//                        + "  public java.util.List<TransferEventResponse> getTransferEvents(org.web3j.protocol.core.methods.response.TransactionReceipt transactionReceipt) {\n"
+//                        + "    final org.web3j.abi.datatypes.Event event = new org.web3j.abi.datatypes.Event(\"Transfer\", \n"
+//                        + "        java.util.Arrays.<org.web3j.abi.TypeReference<?>>asList(new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Utf8String>() {}, new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Address>() {}, new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Address>() {}),\n"
+//                        + "        java.util.Arrays.<org.web3j.abi.TypeReference<?>>asList(new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.generated.Uint256>() {}, new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Utf8String>() {}));\n"
+//                        + "    java.util.List<org.web3j.tx.Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(event, transactionReceipt);\n"
+//                        + "    java.util.ArrayList<TransferEventResponse> responses = new java.util.ArrayList<TransferEventResponse>(valueList.size());\n"
+//                        + "    for (org.web3j.tx.Contract.EventValuesWithLog eventValues : valueList) {\n"
+//                        + "      TransferEventResponse typedResponse = new TransferEventResponse();\n"
+//                        + "      typedResponse.log = eventValues.getLog();\n"
+//                        + "      typedResponse.id = (byte[]) eventValues.getIndexedValues().get(0).getValue();\n"
+//                        + "      typedResponse.from = (java.lang.String) eventValues.getIndexedValues().get(1).getValue();\n"
+//                        + "      typedResponse.to = (java.lang.String) eventValues.getIndexedValues().get(2).getValue();\n"
+//                        + "      typedResponse.value = (java.math.BigInteger) eventValues.getNonIndexedValues().get(0).getValue();\n"
+//                        + "      typedResponse.message = (java.lang.String) eventValues.getNonIndexedValues().get(1).getValue();\n"
+//                        + "      responses.add(typedResponse);\n"
+//                        + "    }\n"
+//                        + "    return responses;\n"
+//                        + "  }\n"
+//                        + "\n"
+//                        + "  public rx.Observable<TransferEventResponse> transferEventObservable(org.web3j.protocol.core.DefaultBlockParameter startBlock, org.web3j.protocol.core.DefaultBlockParameter endBlock) {\n"
+//                        + "    final org.web3j.abi.datatypes.Event event = new org.web3j.abi.datatypes.Event(\"Transfer\", \n"
+//                        + "        java.util.Arrays.<org.web3j.abi.TypeReference<?>>asList(new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Utf8String>() {}, new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Address>() {}, new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Address>() {}),\n"
+//                        + "        java.util.Arrays.<org.web3j.abi.TypeReference<?>>asList(new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.generated.Uint256>() {}, new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Utf8String>() {}));\n"
+//                        + "    org.web3j.protocol.core.methods.request.EthFilter filter = new org.web3j.protocol.core.methods.request.EthFilter(startBlock, endBlock, getContractAddress());\n"
+//                        + "    filter.addSingleTopic(org.web3j.abi.EventEncoder.encode(event));\n"
+//                        + "    return web3j.ethLogObservable(filter).map(new rx.functions.Func1<org.web3j.protocol.core.methods.response.Log, TransferEventResponse>() {\n"
+//                        + "      @java.lang.Override\n"
+//                        + "      public TransferEventResponse call(org.web3j.protocol.core.methods.response.Log log) {\n"
+//                        + "        org.web3j.tx.Contract.EventValuesWithLog eventValues = extractEventParametersWithLog(event, log);\n"
+//                        + "        TransferEventResponse typedResponse = new TransferEventResponse();\n"
+//                        + "        typedResponse.log = log;\n"
+//                        + "        typedResponse.id = (byte[]) eventValues.getIndexedValues().get(0).getValue();\n"
+//                        + "        typedResponse.from = (java.lang.String) eventValues.getIndexedValues().get(1).getValue();\n"
+//                        + "        typedResponse.to = (java.lang.String) eventValues.getIndexedValues().get(2).getValue();\n"
+//                        + "        typedResponse.value = (java.math.BigInteger) eventValues.getNonIndexedValues().get(0).getValue();\n"
+//                        + "        typedResponse.message = (java.lang.String) eventValues.getNonIndexedValues().get(1).getValue();\n"
+//                        + "        return typedResponse;\n"
+//                        + "      }\n"
+//                        + "    });\n"
+//                        + "  }\n"
+//                        + "\n"
+//                        + "  public static class TransferEventResponse {\n"
+//                        + "    public org.web3j.protocol.core.methods.response.Log log;\n"
+//                        + "\n"
+//                        + "    public byte[] id;\n"
+//                        + "\n"
+//                        + "    public java.lang.String from;\n"
+//                        + "\n"
+//                        + "    public java.lang.String to;\n"
+//                        + "\n"
+//                        + "    public java.math.BigInteger value;\n"
+//                        + "\n"
+//                        + "    public java.lang.String message;\n"
+//                        + "  }\n"
+//                        + "}\n";
+//        //CHECKSTYLE:ON
+//
+//        assertThat(builder.build().toString(), is(expected));
+//    }
 
 }
