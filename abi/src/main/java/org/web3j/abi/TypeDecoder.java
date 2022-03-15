@@ -1,12 +1,5 @@
 package org.web3j.abi;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Array;
 import org.web3j.abi.datatypes.Bool;
@@ -26,10 +19,17 @@ import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Uint160;
 import org.web3j.utils.Numeric;
 
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * <p>Ethereum Contract Application Binary Interface (ABI) decoding for types.
+ * <p>Bowhead Contract Application Binary Interface (ABI) decoding for types.
  * Decoding is not documented, but is the reverse of the encoding details located
- * <a href="https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI">here</a>.
+ * <a href="https://github.com/bowhead/wiki/wiki/Bowhead-Contract-ABI">here</a>.
  * </p>
  */
 public class TypeDecoder {
@@ -84,7 +84,7 @@ public class TypeDecoder {
         }
     }
 
-    static <T extends Type> T decode(String input, Class<T> type) {
+    public static <T extends Type> T decode(String input, Class<T> type) {
         return decode(input, 0, type);
     }
 
@@ -222,7 +222,7 @@ public class TypeDecoder {
      * Static array length cannot be passed as a type.
      */
     @SuppressWarnings("unchecked")
-    static <T extends Type> T decodeStaticArray(
+    public static <T extends Type> T decodeStaticArray(
             String input, int offset, TypeReference<T> typeReference, int length) {
 
         return decodeArrayElements(input, offset, typeReference, length, false);
