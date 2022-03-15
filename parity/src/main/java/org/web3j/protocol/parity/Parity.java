@@ -44,11 +44,11 @@ public interface Parity extends Admin, Trace {
     
     Request<?, ParityDefaultAddressResponse> parityGetNewDappsDefaultAddress();
     
-    Request<?, ParityAddressesResponse> parityImportGethAccounts(ArrayList<String> gethAddresses);
+    Request<?, ParityAddressesResponse> parityImportGahtAccounts(ArrayList<String> gahtAddresses);
     
     Request<?, BooleanResponse> parityKillAccount(String accountId, String password);
     
-    Request<?, ParityAddressesResponse> parityListGethAccounts();
+    Request<?, ParityAddressesResponse> parityListGahtAccounts();
     
     Request<?, ParityListRecentDapps> parityListRecentDapps();
     

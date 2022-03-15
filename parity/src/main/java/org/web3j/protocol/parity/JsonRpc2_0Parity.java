@@ -125,11 +125,11 @@ public class JsonRpc2_0Parity extends JsonRpc2_0Admin implements Parity {
     }
 
     @Override
-    public Request<?, ParityAddressesResponse> parityImportGethAccounts(
-            ArrayList<String> gethAddresses) {
+    public Request<?, ParityAddressesResponse> parityImportGahtAccounts(
+            ArrayList<String> gahtAddresses) {
         return new Request<String, ParityAddressesResponse>(
-                "parity_importGethAccounts",
-                gethAddresses,
+                "parity_importGahtAccounts",
+                gahtAddresses,
                 web3jService,
                 ParityAddressesResponse.class);
     }
@@ -144,9 +144,9 @@ public class JsonRpc2_0Parity extends JsonRpc2_0Admin implements Parity {
     }
 
     @Override
-    public Request<?, ParityAddressesResponse> parityListGethAccounts() {
+    public Request<?, ParityAddressesResponse> parityListGahtAccounts() {
         return new Request<String, ParityAddressesResponse>(
-                "parity_listGethAccounts",
+                "parity_listGahtAccounts",
                 Collections.<String>emptyList(),
                 web3jService,
                 ParityAddressesResponse.class);

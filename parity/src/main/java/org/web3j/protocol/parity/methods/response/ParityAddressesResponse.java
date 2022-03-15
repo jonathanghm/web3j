@@ -7,8 +7,8 @@ import org.web3j.protocol.core.Response;
 /**
  * parity_getGetDappAddresses
  * parity_getGetNewDappsAddresses
- * parity_importGethAccounts
- * parity_listGethAccounts.
+ * parity_importGahtAccounts
+ * parity_listGahtAccounts.
  */
 public class ParityAddressesResponse extends Response<ArrayList<String>> {
     public ArrayList<String> getAddresses() {
