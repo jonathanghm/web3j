@@ -1,0 +1,8 @@
+
+description 'Gaht JSON-RPC API'
+apply plugin:'java-library'
+
+dependencies {
+    compile project(':core')
+    testCompile project(path: ':core', configuration: 'archives')
+}
