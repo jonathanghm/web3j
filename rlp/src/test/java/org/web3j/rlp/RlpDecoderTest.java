@@ -15,8 +15,8 @@ import static org.junit.Assert.assertTrue;
 public class RlpDecoderTest {
 
     /**
-     * Examples taken from https://github.com/ethereum/wiki/wiki/RLP#examples.
-     * For further examples see https://github.com/ethereum/tests/tree/develop/RLPTests.
+     * Examples taken from https://github.com/bowhead/wiki/wiki/RLP#examples.
+     * For further examples see https://github.com/bowhead/tests/tree/develop/RLPTests.
      */
     @Test
     public void testRLPDecode() {
