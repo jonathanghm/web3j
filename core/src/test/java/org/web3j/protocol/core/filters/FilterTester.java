@@ -23,9 +23,9 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.Web3jService;
 import org.web3j.protocol.core.Request;
-import org.web3j.protocol.core.methods.response.EthFilter;
-import org.web3j.protocol.core.methods.response.EthLog;
-import org.web3j.protocol.core.methods.response.EthUninstallFilter;
+import org.web3j.protocol.core.methods.response.AhtFilter;
+import org.web3j.protocol.core.methods.response.AhtLog;
+import org.web3j.protocol.core.methods.response.AhtUninstallFilter;
 
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -51,30 +51,30 @@ public abstract class FilterTester {
     }
 
     @SuppressWarnings("unchecked")
-    <T> void runTest(EthLog ethLog, Observable<T> observable) throws Exception {
-        EthFilter ethFilter = objectMapper.readValue(
+    <T> void runTest(AhtLog ahtLog, Observable<T> observable) throws Exception {
+        AhtFilter AhtFilter = objectMapper.readValue(
                 "{\n"
                         + "  \"id\":1,\n"
                         + "  \"jsonrpc\": \"2.0\",\n"
                         + "  \"result\": \"0x1\"\n"
-                        + "}", EthFilter.class);
+                        + "}", AhtFilter.class);
 
-        EthUninstallFilter ethUninstallFilter = objectMapper.readValue(
-                "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":true}", EthUninstallFilter.class);
+        AhtUninstallFilter ahtUninstallFilter = objectMapper.readValue(
+                "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":true}", AhtUninstallFilter.class);
 
-        final List<T> expected = createExpected(ethLog);
+        final List<T> expected = createExpected(ahtLog);
         final Set<T> results = Collections.synchronizedSet(new HashSet<T>());
 
         final CountDownLatch transactionLatch = new CountDownLatch(expected.size());
 
         final CountDownLatch completedLatch = new CountDownLatch(1);
 
-        when(web3jService.send(any(Request.class), eq(EthFilter.class)))
-                .thenReturn(ethFilter);
-        when(web3jService.send(any(Request.class), eq(EthLog.class)))
-                .thenReturn(ethLog);
-        when(web3jService.send(any(Request.class), eq(EthUninstallFilter.class)))
-                .thenReturn(ethUninstallFilter);
+        when(web3jService.send(any(Request.class), eq(AhtFilter.class)))
+                .thenReturn(AhtFilter);
+        when(web3jService.send(any(Request.class), eq(AhtLog.class)))
+                .thenReturn(ahtLog);
+        when(web3jService.send(any(Request.class), eq(AhtUninstallFilter.class)))
+                .thenReturn(ahtUninstallFilter);
 
         Subscription subscription = observable.subscribe(
                 new Action1<T>() {
@@ -107,14 +107,14 @@ public abstract class FilterTester {
     }
 
     @SuppressWarnings("unchecked")
-    List createExpected(EthLog ethLog) {
-        List<EthLog.LogResult> logResults = ethLog.getLogs();
+    List createExpected(AhtLog ahtLog) {
+        List<AhtLog.LogResult> logResults = ahtLog.getLogs();
         if (logResults.isEmpty()) {
             fail("Results cannot be empty");
         }
 
         List expected = new ArrayList();
-        for (EthLog.LogResult logResult : ethLog.getLogs()) {
+        for (AhtLog.LogResult logResult : ahtLog.getLogs()) {
             expected.add(logResult.get());
         }
         return expected;

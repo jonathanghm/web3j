@@ -18,8 +18,8 @@ import org.web3j.protocol.admin.Admin;
 import org.web3j.protocol.admin.AdminFactory;
 import org.web3j.protocol.admin.methods.response.PersonalUnlockAccount;
 import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
-import org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;
+import org.web3j.protocol.core.methods.response.AhtGetTransactionCount;
+import org.web3j.protocol.core.methods.response.AhtGetTransactionReceipt;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Files;
@@ -38,7 +38,7 @@ public class Scenario {
     private static final String WALLET_PASSWORD = "";
 
     /*
-    If you want to use regular Ethereum wallet addresses, provide a WALLET address variable
+    If you want to use regular Bowhead wallet addresses, provide a WALLET address variable
     "0x..." // 20 bytes (40 hex characters) & replace instances of ALICE.getAddress() with this
     WALLET address variable you've defined.
     */
@@ -106,17 +106,17 @@ public class Scenario {
 
     private TransactionReceipt sendTransactionReceiptRequest(
             String transactionHash) throws Exception {
-        EthGetTransactionReceipt transactionReceipt =
-                web3j.ethGetTransactionReceipt(transactionHash).sendAsync().get();
+        AhtGetTransactionReceipt transactionReceipt =
+                web3j.ahtGetTransactionReceipt(transactionHash).sendAsync().get();
 
         return transactionReceipt.getTransactionReceipt();
     }
 
     BigInteger getNonce(String address) throws Exception {
-        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(
+        AhtGetTransactionCount ahtGetTransactionCount = web3j.ahtGetTransactionCount(
                 address, DefaultBlockParameterName.LATEST).sendAsync().get();
 
-        return ethGetTransactionCount.getTransactionCount();
+        return ahtGetTransactionCount.getTransactionCount();
     }
 
     Function createFibonacciFunction() {

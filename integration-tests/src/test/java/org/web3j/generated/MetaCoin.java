@@ -18,7 +18,7 @@ import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.RemoteCall;
-import org.web3j.protocol.core.methods.request.EthFilter;
+import org.web3j.protocol.core.methods.request.AhtFilter;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tx.Contract;
@@ -74,9 +74,9 @@ public final class MetaCoin extends Contract {
         final Event event = new Event("Transfer", 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}, new TypeReference<Address>() {}),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
-        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
+        AhtFilter filter = new AhtFilter(startBlock, endBlock, getContractAddress());
         filter.addSingleTopic(EventEncoder.encode(event));
-        return web3j.ethLogObservable(filter).map(new Func1<Log, TransferEventResponse>() {
+        return web3j.ahtLogObservable(filter).map(new Func1<Log, TransferEventResponse>() {
             @Override
             public TransferEventResponse call(Log log) {
                 EventValues eventValues = extractEventParameters(event, log);
@@ -89,8 +89,8 @@ public final class MetaCoin extends Contract {
         });
     }
 
-    public RemoteCall<BigInteger> getBalanceInEth(String addr) {
-        Function function = new Function("getBalanceInEth", 
+    public RemoteCall<BigInteger> getBalanceInAht(String addr) {
+        Function function = new Function("getBalanceInAht", 
                 Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(addr)), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
         return executeRemoteCallSingleValueReturn(function, BigInteger.class);

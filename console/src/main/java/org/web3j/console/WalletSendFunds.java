@@ -46,16 +46,16 @@ public class WalletSendFunds extends WalletManager {
             exitError("Invalid destination address specified");
         }
 
-        Web3j web3j = getEthereumClient();
+        Web3j web3j = getBowheadClient();
 
         BigDecimal amountToTransfer = getAmountToTransfer();
         Convert.Unit transferUnit = getTransferUnit();
-        BigDecimal amountInWei = Convert.toWei(amountToTransfer, transferUnit);
+        BigDecimal amountInCell = Convert.toCell(amountToTransfer, transferUnit);
 
-        confirmTransfer(amountToTransfer, transferUnit, amountInWei, destinationAddress);
+        confirmTransfer(amountToTransfer, transferUnit, amountInCell, destinationAddress);
 
         TransactionReceipt transactionReceipt = performTransfer(
-                web3j, destinationAddress, credentials, amountInWei);
+                web3j, destinationAddress, credentials, amountInCell);
 
         console.printf("Funds have been successfully transferred from %s to %s%n"
                         + "Transaction hash: %s%nMined block number: %s%n",
@@ -78,12 +78,12 @@ public class WalletSendFunds extends WalletManager {
     }
 
     private Convert.Unit getTransferUnit() {
-        String unit = console.readLine("Please specify the unit (ether, wei, ...) [ether]: ")
+        String unit = console.readLine("Please specify the unit (aht, cell, ...) [aht]: ")
                 .trim();
 
         Convert.Unit transferUnit;
         if (unit.equals("")) {
-            transferUnit = Convert.Unit.ETHER;
+            transferUnit = Convert.Unit.AHT;
         } else {
             transferUnit = Convert.Unit.fromString(unit.toLowerCase());
         }
@@ -92,13 +92,13 @@ public class WalletSendFunds extends WalletManager {
     }
 
     private void confirmTransfer(
-            BigDecimal amountToTransfer, Convert.Unit transferUnit, BigDecimal amountInWei,
+            BigDecimal amountToTransfer, Convert.Unit transferUnit, BigDecimal amountInCell,
             String destinationAddress) {
 
         console.printf("Please confim that you wish to transfer %s %s (%s %s) to address %s%n",
                 amountToTransfer.stripTrailingZeros().toPlainString(), transferUnit,
-                amountInWei.stripTrailingZeros().toPlainString(),
-                Convert.Unit.WEI, destinationAddress);
+                amountInCell.stripTrailingZeros().toPlainString(),
+                Convert.Unit.CELL, destinationAddress);
         String confirm = console.readLine("Please type 'yes' to proceed: ").trim();
         if (!confirm.toLowerCase().equals("yes")) {
             exitError("OK, some other time perhaps...");
@@ -107,12 +107,12 @@ public class WalletSendFunds extends WalletManager {
 
     private TransactionReceipt performTransfer(
             Web3j web3j, String destinationAddress, Credentials credentials,
-            BigDecimal amountInWei) {
+            BigDecimal amountInCell) {
 
         console.printf("Commencing transfer (this may take a few minutes) ");
         try {
             Future<TransactionReceipt> future = Transfer.sendFunds(
-                    web3j, credentials, destinationAddress, amountInWei, Convert.Unit.WEI)
+                    web3j, credentials, destinationAddress, amountInCell, Convert.Unit.CELL)
                     .sendAsync();
 
             while (!future.isDone()) {
@@ -137,9 +137,9 @@ public class WalletSendFunds extends WalletManager {
         throw new RuntimeException("Application exit failure");
     }
 
-    private Web3j getEthereumClient() {
+    private Web3j getBowheadClient() {
         String clientAddress = console.readLine(
-                "Please confirm address of running Ethereum client you wish to send "
+                "Please confirm address of running Bowhead client you wish to send "
                 + "the transfer request to [" + HttpService.DEFAULT_URL + "]: ")
                 .trim();
 

@@ -14,7 +14,7 @@ import org.web3j.utils.Numeric;
  * </ul>
  *
  * <p>See
- * <a href="https://github.com/ethereum/wiki/wiki/JSON-RPC#shh_getfilterchanges">docs</a>
+ * <a href="https://github.com/bowhead/wiki/wiki/JSON-RPC#shh_getfilterchanges">docs</a>
  * for further details.</p>
  */
 public class ShhMessages extends Response<List<ShhMessages.SshMessage>> {

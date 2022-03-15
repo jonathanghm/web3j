@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import org.web3j.crypto.SampleKeys;
 import org.web3j.protocol.core.Request;
-import org.web3j.protocol.core.methods.response.EthGasPrice;
+import org.web3j.protocol.core.methods.response.AhtGasPrice;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Convert;
 
@@ -31,21 +31,21 @@ public class TransferTest extends ManagedTransactionTester {
     @Test
     public void testSendFunds() throws Exception {
         assertThat(Transfer.sendFunds(web3j, SampleKeys.CREDENTIALS, ADDRESS,
-                BigDecimal.TEN, Convert.Unit.ETHER).send(),
+                BigDecimal.TEN, Convert.Unit.AHT).send(),
                 is(transactionReceipt));
     }
 
     @Test
     public void testSendFundsAsync() throws  Exception {
         assertThat(Transfer.sendFunds(web3j, SampleKeys.CREDENTIALS, ADDRESS,
-                BigDecimal.TEN, Convert.Unit.ETHER).send(),
+                BigDecimal.TEN, Convert.Unit.AHT).send(),
                 is(transactionReceipt));
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testTransferInvalidValue() throws Exception {
         Transfer.sendFunds(web3j, SampleKeys.CREDENTIALS, ADDRESS,
-                new BigDecimal(0.1), Convert.Unit.WEI).send();
+                new BigDecimal(0.1), Convert.Unit.CELL).send();
     }
 
     @SuppressWarnings("unchecked")
@@ -54,12 +54,12 @@ public class TransferTest extends ManagedTransactionTester {
         transactionReceipt.setTransactionHash(TRANSACTION_HASH);
         prepareTransaction(transactionReceipt);
 
-        final EthGasPrice ethGasPrice = new EthGasPrice();
-        ethGasPrice.setResult("0x1");
+        final AhtGasPrice ahtGasPrice = new AhtGasPrice();
+        ahtGasPrice.setResult("0x1");
 
-        Request<?, EthGasPrice> gasPriceRequest = mock(Request.class);
-        when(gasPriceRequest.send()).thenReturn(ethGasPrice);
-        when(web3j.ethGasPrice()).thenReturn((Request) gasPriceRequest);
+        Request<?, AhtGasPrice> gasPriceRequest = mock(Request.class);
+        when(gasPriceRequest.send()).thenReturn(ahtGasPrice);
+        when(web3j.ahtGasPrice()).thenReturn((Request) gasPriceRequest);
 
         return transactionReceipt;
     }

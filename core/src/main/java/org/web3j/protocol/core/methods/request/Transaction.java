@@ -9,14 +9,14 @@ import org.web3j.utils.Numeric;
 /**
  * Transaction request object used the below methods.
  * <ol>
- *     <li>eth_call</li>
- *     <li>eth_sendTransaction</li>
- *     <li>eth_estimateGas</li>
+ *     <li>aht_call</li>
+ *     <li>aht_sendTransaction</li>
+ *     <li>aht_estimateGas</li>
  * </ol>
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Transaction {
-    // default as per https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_sendtransaction
+    // default as per https://github.com/bowhead/wiki/wiki/JSON-RPC#aht_sendtransaction
     public static final BigInteger DEFAULT_GAS = BigInteger.valueOf(9000);
 
     private String from;
@@ -25,7 +25,7 @@ public class Transaction {
     private BigInteger gasPrice;
     private BigInteger value;
     private String data;
-    private BigInteger nonce;  // nonce field is not present on eth_call/eth_estimateGas
+    private BigInteger nonce;  // nonce field is not present on aht_call/aht_estimateGas
 
     public Transaction(String from, BigInteger nonce, BigInteger gasPrice, BigInteger gasLimit,
                        String to, BigInteger value, String data) {
@@ -55,7 +55,7 @@ public class Transaction {
         return createContractTransaction(from, nonce, gasPrice, null, null, init);
     }
 
-    public static Transaction createEtherTransaction(
+    public static Transaction createAhtTransaction(
             String from, BigInteger nonce, BigInteger gasPrice, BigInteger gasLimit, String to,
             BigInteger value) {
 
@@ -76,7 +76,7 @@ public class Transaction {
         return new Transaction(from, nonce, gasPrice, gasLimit, to, null, data);
     }
 
-    public static Transaction createEthCallTransaction(String from, String to, String data) {
+    public static Transaction createAhtCallTransaction(String from, String to, String data) {
 
         return new Transaction(from, null, null, null, to, null, data);
     }

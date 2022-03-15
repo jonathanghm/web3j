@@ -115,9 +115,9 @@ public class WalletUtilsTest {
         assertThat(credentials, equalTo(CREDENTIALS));
     }
 
-    @Ignore  // enable if users need to work with MyEtherWallet
+    @Ignore  // enable if users need to work with MyAhtWallet
     @Test
-    public void testLoadCredentialsMyEtherWallet() throws Exception {
+    public void testLoadCredentialsMyAhtWallet() throws Exception {
         Credentials credentials = WalletUtils.loadCredentials(
                 PASSWORD,
                 new File(WalletUtilsTest.class.getResource(
@@ -133,11 +133,11 @@ public class WalletUtilsTest {
     @Test
     public void testGetDefaultKeyDirectory() {
         assertTrue(WalletUtils.getDefaultKeyDirectory("Mac OS X")
-                .endsWith(String.format("%sLibrary%sEthereum", File.separator, File.separator)));
+                .endsWith(String.format("%sLibrary%sBowhead", File.separator, File.separator)));
         assertTrue(WalletUtils.getDefaultKeyDirectory("Windows")
-                .endsWith(String.format("%sEthereum", File.separator)));
+                .endsWith(String.format("%sBowhead", File.separator)));
         assertTrue(WalletUtils.getDefaultKeyDirectory("Linux")
-                .endsWith(String.format("%s.ethereum", File.separator)));
+                .endsWith(String.format("%s.bowhead", File.separator)));
     }
 
     @Test

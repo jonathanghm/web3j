@@ -7,7 +7,7 @@ import java.util.List;
 import org.web3j.utils.Numeric;
 
 /**
- * TransactionReceipt object used by {@link EthGetTransactionReceipt}.
+ * TransactionReceipt object used by {@link AhtGetTransactionReceipt}.
  */
 public class TransactionReceipt {
     private String transactionHash;
@@ -19,7 +19,7 @@ public class TransactionReceipt {
     private String contractAddress;
     private String root;
     // status is only present on Byzantium transactions onwards
-    // see EIP 658 https://github.com/ethereum/EIPs/pull/658
+    // see EIP 658 https://github.com/bowhead/EIPs/pull/658
     private String status;
     private String from;
     private String to;

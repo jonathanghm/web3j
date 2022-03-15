@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.Request;
-import org.web3j.protocol.core.methods.response.EthFilter;
-import org.web3j.protocol.core.methods.response.EthLog;
+import org.web3j.protocol.core.methods.response.AhtFilter;
+import org.web3j.protocol.core.methods.response.AhtLog;
 
 /**
  * Handler for working with block filter requests.
@@ -19,15 +19,15 @@ public class BlockFilter extends Filter<String> {
     }
 
     @Override
-    EthFilter sendRequest() throws IOException {
-        return web3j.ethNewBlockFilter().send();
+    AhtFilter sendRequest() throws IOException {
+        return web3j.ahtNewBlockFilter().send();
     }
 
     @Override
-    void process(List<EthLog.LogResult> logResults) {
-        for (EthLog.LogResult logResult : logResults) {
-            if (logResult instanceof EthLog.Hash) {
-                String blockHash = ((EthLog.Hash) logResult).get();
+    void process(List<AhtLog.LogResult> logResults) {
+        for (AhtLog.LogResult logResult : logResults) {
+            if (logResult instanceof AhtLog.Hash) {
+                String blockHash = ((AhtLog.Hash) logResult).get();
                 callback.onEvent(blockHash);
             } else {
                 throw new FilterException(
@@ -44,7 +44,7 @@ public class BlockFilter extends Filter<String> {
      * @return null
      */
     @Override
-    protected Request<?, EthLog> getFilterLogs(BigInteger filterId) {
+    protected Request<?, AhtLog> getFilterLogs(BigInteger filterId) {
         return null;
     }
 }

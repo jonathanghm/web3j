@@ -6,8 +6,7 @@ import java.util.List;
 
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.Request;
-import org.web3j.protocol.core.methods.response.EthFilter;
-import org.web3j.protocol.core.methods.response.EthLog;
+import org.web3j.protocol.core.methods.response.AhtLog;
 import org.web3j.protocol.core.methods.response.Log;
 
 /**
@@ -15,26 +14,26 @@ import org.web3j.protocol.core.methods.response.Log;
  */
 public class LogFilter extends Filter<Log> {
 
-    private final org.web3j.protocol.core.methods.request.EthFilter ethFilter;
+    private final org.web3j.protocol.core.methods.request.AhtFilter AhtFilter;
 
     public LogFilter(
             Web3j web3j, Callback<Log> callback,
-            org.web3j.protocol.core.methods.request.EthFilter ethFilter) {
+            org.web3j.protocol.core.methods.request.AhtFilter AhtFilter) {
         super(web3j, callback);
-        this.ethFilter = ethFilter;
+        this.AhtFilter = AhtFilter;
     }
 
 
     @Override
-    EthFilter sendRequest() throws IOException {
-        return web3j.ethNewFilter(ethFilter).send();
+    org.web3j.protocol.core.methods.response.AhtFilter sendRequest() throws IOException {
+        return web3j.ahtNewFilter(AhtFilter).send();
     }
 
     @Override
-    void process(List<EthLog.LogResult> logResults) {
-        for (EthLog.LogResult logResult : logResults) {
-            if (logResult instanceof EthLog.LogObject) {
-                Log log = ((EthLog.LogObject) logResult).get();
+    void process(List<AhtLog.LogResult> logResults) {
+        for (AhtLog.LogResult logResult : logResults) {
+            if (logResult instanceof AhtLog.LogObject) {
+                Log log = ((AhtLog.LogObject) logResult).get();
                 callback.onEvent(log);
             } else {
                 throw new FilterException(
@@ -44,7 +43,7 @@ public class LogFilter extends Filter<Log> {
     }
 
     @Override
-    protected Request<?, EthLog> getFilterLogs(BigInteger filterId) {
-        return web3j.ethGetFilterLogs(filterId);
+    protected Request<?, AhtLog> getFilterLogs(BigInteger filterId) {
+        return web3j.ahtGetFilterLogs(filterId);
     }
 }

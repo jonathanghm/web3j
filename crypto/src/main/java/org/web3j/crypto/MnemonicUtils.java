@@ -7,6 +7,8 @@ import org.spongycastle.crypto.params.KeyParameter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -162,10 +164,10 @@ public class MnemonicUtils {
     }
 
     private static List<String> populateWordList() {
-        URL url = Thread.currentThread().getContextClassLoader()
-                .getResource("en-mnemonic-word-list.txt");
-        try {
-            return readAllLines(url.toURI().getSchemeSpecificPart());
+        InputStream inputStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("en-mnemonic-word-list.txt");
+        try { return readAllLines(inputStream);
+
         } catch (Exception e) {
             return Collections.emptyList();
         }
@@ -179,4 +181,14 @@ public class MnemonicUtils {
         }
         return data;
     }
+
+    public static List<String> readAllLines(InputStream inputStream) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+        List<String> data = new ArrayList<>();
+        for (String line; (line = br.readLine()) != null; ) {
+            data.add(line);
+        }
+        return data;
+    }
+
 }

@@ -12,45 +12,44 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import org.web3j.protocol.ResponseTester;
-import org.web3j.protocol.core.Response;
 import org.web3j.protocol.core.methods.response.AbiDefinition;
+import org.web3j.protocol.core.methods.response.AhtFilter;
 import org.web3j.protocol.core.methods.response.DbGetHex;
 import org.web3j.protocol.core.methods.response.DbGetString;
 import org.web3j.protocol.core.methods.response.DbPutHex;
 import org.web3j.protocol.core.methods.response.DbPutString;
-import org.web3j.protocol.core.methods.response.EthAccounts;
-import org.web3j.protocol.core.methods.response.EthBlock;
-import org.web3j.protocol.core.methods.response.EthBlockNumber;
-import org.web3j.protocol.core.methods.response.EthCall;
-import org.web3j.protocol.core.methods.response.EthCompileLLL;
-import org.web3j.protocol.core.methods.response.EthCompileSerpent;
-import org.web3j.protocol.core.methods.response.EthCompileSolidity;
-import org.web3j.protocol.core.methods.response.EthEstimateGas;
-import org.web3j.protocol.core.methods.response.EthFilter;
-import org.web3j.protocol.core.methods.response.EthGasPrice;
-import org.web3j.protocol.core.methods.response.EthGetBalance;
-import org.web3j.protocol.core.methods.response.EthGetBlockTransactionCountByHash;
-import org.web3j.protocol.core.methods.response.EthGetBlockTransactionCountByNumber;
-import org.web3j.protocol.core.methods.response.EthGetCode;
-import org.web3j.protocol.core.methods.response.EthGetCompilers;
-import org.web3j.protocol.core.methods.response.EthGetStorageAt;
-import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
-import org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;
-import org.web3j.protocol.core.methods.response.EthGetUncleCountByBlockHash;
-import org.web3j.protocol.core.methods.response.EthGetUncleCountByBlockNumber;
-import org.web3j.protocol.core.methods.response.EthGetWork;
-import org.web3j.protocol.core.methods.response.EthHashrate;
-import org.web3j.protocol.core.methods.response.EthLog;
-import org.web3j.protocol.core.methods.response.EthMining;
-import org.web3j.protocol.core.methods.response.EthProtocolVersion;
-import org.web3j.protocol.core.methods.response.EthSendRawTransaction;
-import org.web3j.protocol.core.methods.response.EthSendTransaction;
-import org.web3j.protocol.core.methods.response.EthSign;
-import org.web3j.protocol.core.methods.response.EthSubmitHashrate;
-import org.web3j.protocol.core.methods.response.EthSubmitWork;
-import org.web3j.protocol.core.methods.response.EthSyncing;
-import org.web3j.protocol.core.methods.response.EthTransaction;
-import org.web3j.protocol.core.methods.response.EthUninstallFilter;
+import org.web3j.protocol.core.methods.response.AhtAccounts;
+import org.web3j.protocol.core.methods.response.AhtBlock;
+import org.web3j.protocol.core.methods.response.AhtBlockNumber;
+import org.web3j.protocol.core.methods.response.AhtCall;
+import org.web3j.protocol.core.methods.response.AhtCompileLLL;
+import org.web3j.protocol.core.methods.response.AhtCompileSerpent;
+import org.web3j.protocol.core.methods.response.AhtCompileSolidity;
+import org.web3j.protocol.core.methods.response.AhtEstimateGas;
+import org.web3j.protocol.core.methods.response.AhtGasPrice;
+import org.web3j.protocol.core.methods.response.AhtGetBalance;
+import org.web3j.protocol.core.methods.response.AhtGetBlockTransactionCountByHash;
+import org.web3j.protocol.core.methods.response.AhtGetBlockTransactionCountByNumber;
+import org.web3j.protocol.core.methods.response.AhtGetCode;
+import org.web3j.protocol.core.methods.response.AhtGetCompilers;
+import org.web3j.protocol.core.methods.response.AhtGetStorageAt;
+import org.web3j.protocol.core.methods.response.AhtGetTransactionCount;
+import org.web3j.protocol.core.methods.response.AhtGetTransactionReceipt;
+import org.web3j.protocol.core.methods.response.AhtGetUncleCountByBlockHash;
+import org.web3j.protocol.core.methods.response.AhtGetUncleCountByBlockNumber;
+import org.web3j.protocol.core.methods.response.AhtGetWork;
+import org.web3j.protocol.core.methods.response.AhtHashrate;
+import org.web3j.protocol.core.methods.response.AhtLog;
+import org.web3j.protocol.core.methods.response.AhtMining;
+import org.web3j.protocol.core.methods.response.AhtProtocolVersion;
+import org.web3j.protocol.core.methods.response.AhtSendRawTransaction;
+import org.web3j.protocol.core.methods.response.AhtSendTransaction;
+import org.web3j.protocol.core.methods.response.AhtSign;
+import org.web3j.protocol.core.methods.response.AhtSubmitHashrate;
+import org.web3j.protocol.core.methods.response.AhtSubmitWork;
+import org.web3j.protocol.core.methods.response.AhtSyncing;
+import org.web3j.protocol.core.methods.response.AhtTransaction;
+import org.web3j.protocol.core.methods.response.AhtUninstallFilter;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.NetListening;
 import org.web3j.protocol.core.methods.response.NetPeerCount;
@@ -94,9 +93,9 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthBlock ethBlock = deserialiseResponse(EthBlock.class);
-        assertTrue(ethBlock.hasError());
-        assertThat(ethBlock.getError(), equalTo(
+        AhtBlock ahtBlock = deserialiseResponse(AhtBlock.class);
+        assertTrue(ahtBlock.hasError());
+        assertThat(ahtBlock.getError(), equalTo(
                 new Response.Error(-32602, "Invalid address length, expected 40 got 64 bytes")));
     }
 
@@ -173,7 +172,7 @@ public class ResponseTest extends ResponseTester {
     }
 
     @Test
-    public void testEthProtocolVersion() throws IOException {
+    public void testAhtProtocolVersion() throws IOException {
         buildResponse(
                 "{\n"
                         + "  \"id\":67,\n"
@@ -182,12 +181,12 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthProtocolVersion ethProtocolVersion = deserialiseResponse(EthProtocolVersion.class);
-        assertThat(ethProtocolVersion.getProtocolVersion(), is("54"));
+        AhtProtocolVersion ahtProtocolVersion = deserialiseResponse(AhtProtocolVersion.class);
+        assertThat(ahtProtocolVersion.getProtocolVersion(), is("54"));
     }
 
     @Test
-    public void testEthSyncingInProgress() {
+    public void testAhtSyncingInProgress() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -201,20 +200,20 @@ public class ResponseTest extends ResponseTester {
         );
 
 
-        // Response received from Geth node
+        // Response received from Gaht node
         // "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"currentBlock\":\"0x117a\",
         // \"highestBlock\":\"0x21dab4\",\"knownStates\":\"0x0\",\"pulledStates\":\"0x0\",
         // \"startingBlock\":\"0xa51\"}}"
 
-        EthSyncing ethSyncing = deserialiseResponse(EthSyncing.class);
+        AhtSyncing ahtSyncing = deserialiseResponse(AhtSyncing.class);
 
-        assertThat(ethSyncing.getResult(),
-                CoreMatchers.<EthSyncing.Result>equalTo(
-                        new EthSyncing.Syncing("0x384", "0x386", "0x454", null, null)));
+        assertThat(ahtSyncing.getResult(),
+                CoreMatchers.<AhtSyncing.Result>equalTo(
+                        new AhtSyncing.Syncing("0x384", "0x386", "0x454", null, null)));
     }
 
     @Test
-    public void testEthSyncing() {
+    public void testAhtSyncing() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -223,12 +222,12 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthSyncing ethSyncing = deserialiseResponse(EthSyncing.class);
-        assertThat(ethSyncing.isSyncing(), is(false));
+        AhtSyncing ahtSyncing = deserialiseResponse(AhtSyncing.class);
+        assertThat(ahtSyncing.isSyncing(), is(false));
     }
 
     @Test
-    public void testEthMining() {
+    public void testAhtMining() {
         buildResponse(
                 "{\n"
                         + "  \"id\":71,\n"
@@ -237,12 +236,12 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthMining ethMining = deserialiseResponse(EthMining.class);
-        assertThat(ethMining.isMining(), is(true));
+        AhtMining ahtMining = deserialiseResponse(AhtMining.class);
+        assertThat(ahtMining.isMining(), is(true));
     }
 
     @Test
-    public void testEthHashrate() {
+    public void testAhtHashrate() {
         buildResponse(
                 "{\n"
                         + "  \"id\":71,\n"
@@ -251,12 +250,12 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthHashrate ethHashrate = deserialiseResponse(EthHashrate.class);
-        assertThat(ethHashrate.getHashrate(), equalTo(BigInteger.valueOf(906L)));
+        AhtHashrate ahtHashrate = deserialiseResponse(AhtHashrate.class);
+        assertThat(ahtHashrate.getHashrate(), equalTo(BigInteger.valueOf(906L)));
     }
 
     @Test
-    public void testEthGasPrice() {
+    public void testAhtGasPrice() {
         buildResponse(
                 "{\n"
                         + "  \"id\":73,\n"
@@ -265,12 +264,12 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthGasPrice ethGasPrice = deserialiseResponse(EthGasPrice.class);
-        assertThat(ethGasPrice.getGasPrice(), equalTo(BigInteger.valueOf(10000000000000L)));
+        AhtGasPrice ahtGasPrice = deserialiseResponse(AhtGasPrice.class);
+        assertThat(ahtGasPrice.getGasPrice(), equalTo(BigInteger.valueOf(10000000000000L)));
     }
 
     @Test
-    public void testEthAccounts() {
+    public void testAhtAccounts() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -279,13 +278,13 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthAccounts ethAccounts = deserialiseResponse(EthAccounts.class);
-        assertThat(ethAccounts.getAccounts(),
+        AhtAccounts ahtAccounts = deserialiseResponse(AhtAccounts.class);
+        assertThat(ahtAccounts.getAccounts(),
                 equalTo(Arrays.asList("0x407d73d8a49eeb85d32cf465507dd71d507100c1")));
     }
 
     @Test
-    public void testEthBlockNumber() {
+    public void testAhtBlockNumber() {
         buildResponse(
                 "{\n"
                         + "  \"id\":83,\n"
@@ -294,12 +293,12 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthBlockNumber ethBlockNumber = deserialiseResponse(EthBlockNumber.class);
-        assertThat(ethBlockNumber.getBlockNumber(), equalTo(BigInteger.valueOf(1207L)));
+        AhtBlockNumber ahtBlockNumber = deserialiseResponse(AhtBlockNumber.class);
+        assertThat(ahtBlockNumber.getBlockNumber(), equalTo(BigInteger.valueOf(1207L)));
     }
 
     @Test
-    public void testEthGetBalance() {
+    public void testAhtGetBalance() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -308,12 +307,12 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthGetBalance ethGetBalance = deserialiseResponse(EthGetBalance.class);
-        assertThat(ethGetBalance.getBalance(), equalTo(BigInteger.valueOf(158972490234375000L)));
+        AhtGetBalance ahtGetBalance = deserialiseResponse(AhtGetBalance.class);
+        assertThat(ahtGetBalance.getBalance(), equalTo(BigInteger.valueOf(158972490234375000L)));
     }
 
     @Test
-    public void testEthStorageAt() {
+    public void testAhtStorageAt() {
         buildResponse(
                 "{\n"
                         + "    \"jsonrpc\":\"2.0\","
@@ -323,13 +322,13 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthGetStorageAt ethGetStorageAt = deserialiseResponse(EthGetStorageAt.class);
-        assertThat(ethGetStorageAt.getResult(),
+        AhtGetStorageAt ahtGetStorageAt = deserialiseResponse(AhtGetStorageAt.class);
+        assertThat(ahtGetStorageAt.getResult(),
                 is("0x000000000000000000000000000000000000000000000000000000000000162e"));
     }
 
     @Test
-    public void testEthGetTransactionCount() {
+    public void testAhtGetTransactionCount() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -338,13 +337,13 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthGetTransactionCount ethGetTransactionCount =
-                deserialiseResponse((EthGetTransactionCount.class));
-        assertThat(ethGetTransactionCount.getTransactionCount(), equalTo(BigInteger.valueOf(1L)));
+        AhtGetTransactionCount ahtGetTransactionCount =
+                deserialiseResponse((AhtGetTransactionCount.class));
+        assertThat(ahtGetTransactionCount.getTransactionCount(), equalTo(BigInteger.valueOf(1L)));
     }
 
     @Test
-    public void testEthGetBlockTransactionCountByHash() {
+    public void testAhtGetBlockTransactionCountByHash() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -353,14 +352,14 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthGetBlockTransactionCountByHash ethGetBlockTransactionCountByHash =
-                deserialiseResponse(EthGetBlockTransactionCountByHash.class);
-        assertThat(ethGetBlockTransactionCountByHash.getTransactionCount(),
+        AhtGetBlockTransactionCountByHash ahtGetBlockTransactionCountByHash =
+                deserialiseResponse(AhtGetBlockTransactionCountByHash.class);
+        assertThat(ahtGetBlockTransactionCountByHash.getTransactionCount(),
                 equalTo(BigInteger.valueOf(11)));
     }
 
     @Test
-    public void testEthGetBlockTransactionCountByNumber() {
+    public void testAhtGetBlockTransactionCountByNumber() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -369,14 +368,14 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthGetBlockTransactionCountByNumber ethGetBlockTransactionCountByNumber =
-                deserialiseResponse(EthGetBlockTransactionCountByNumber.class);
-        assertThat(ethGetBlockTransactionCountByNumber.getTransactionCount(),
+        AhtGetBlockTransactionCountByNumber ahtGetBlockTransactionCountByNumber =
+                deserialiseResponse(AhtGetBlockTransactionCountByNumber.class);
+        assertThat(ahtGetBlockTransactionCountByNumber.getTransactionCount(),
                 equalTo(BigInteger.valueOf(10)));
     }
 
     @Test
-    public void testEthGetUncleCountByBlockHash() {
+    public void testAhtGetUncleCountByBlockHash() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -385,14 +384,14 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthGetUncleCountByBlockHash ethGetUncleCountByBlockHash = deserialiseResponse(
-                EthGetUncleCountByBlockHash.class);
-        assertThat(ethGetUncleCountByBlockHash.getUncleCount(),
+        AhtGetUncleCountByBlockHash ahtGetUncleCountByBlockHash = deserialiseResponse(
+                AhtGetUncleCountByBlockHash.class);
+        assertThat(ahtGetUncleCountByBlockHash.getUncleCount(),
                 equalTo(BigInteger.valueOf(1)));
     }
 
     @Test
-    public void testEthGetUncleCountByBlockNumber() {
+    public void testAhtGetUncleCountByBlockNumber() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -401,9 +400,9 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthGetUncleCountByBlockNumber ethGetUncleCountByBlockNumber = deserialiseResponse(
-                EthGetUncleCountByBlockNumber.class);
-        assertThat(ethGetUncleCountByBlockNumber.getUncleCount(),
+        AhtGetUncleCountByBlockNumber ahtGetUncleCountByBlockNumber = deserialiseResponse(
+                AhtGetUncleCountByBlockNumber.class);
+        assertThat(ahtGetUncleCountByBlockNumber.getUncleCount(),
                 equalTo(BigInteger.valueOf(1)));
     }
 
@@ -418,14 +417,14 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthGetCode ethGetCode = deserialiseResponse(EthGetCode.class);
-        assertThat(ethGetCode.getCode(),
+        AhtGetCode ahtGetCode = deserialiseResponse(AhtGetCode.class);
+        assertThat(ahtGetCode.getCode(),
                 is("0x600160008035811a818181146012578301005b601b60013560255"
                         + "65b8060005260206000f25b600060078202905091905056"));
     }
 
     @Test
-    public void testEthSign() {
+    public void testAhtSign() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -436,14 +435,14 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthSign ethSign = deserialiseResponse(EthSign.class);
-        assertThat(ethSign.getSignature(),
+        AhtSign ahtSign = deserialiseResponse(AhtSign.class);
+        assertThat(ahtSign.getSignature(),
                 is("0xbd685c98ec39490f50d15c67ba2a8e9b5b1d6d7601fca80b295e7d717446bd8b7127ea4871e9"
                         + "96cdc8cae7690408b4e800f60ddac49d2ad34180e68f1da0aaf001"));
     }
 
     @Test
-    public void testEthSendTransaction() {
+    public void testAhtSendTransaction() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -453,13 +452,13 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthSendTransaction ethSendTransaction = deserialiseResponse(EthSendTransaction.class);
-        assertThat(ethSendTransaction.getTransactionHash(),
+        AhtSendTransaction ahtSendTransaction = deserialiseResponse(AhtSendTransaction.class);
+        assertThat(ahtSendTransaction.getTransactionHash(),
                 is("0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331"));
     }
 
     @Test
-    public void testEthSendRawTransaction() {
+    public void testAhtSendRawTransaction() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -469,14 +468,14 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthSendRawTransaction ethSendRawTransaction =
-                deserialiseResponse(EthSendRawTransaction.class);
-        assertThat(ethSendRawTransaction.getTransactionHash(),
+        AhtSendRawTransaction ahtSendRawTransaction =
+                deserialiseResponse(AhtSendRawTransaction.class);
+        assertThat(ahtSendRawTransaction.getTransactionHash(),
                 is("0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331"));
     }
 
     @Test
-    public void testEthCall() {
+    public void testAhtCall() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -485,12 +484,12 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthCall ethCall = deserialiseResponse(EthCall.class);
-        assertThat(ethCall.getValue(), is("0x"));
+        AhtCall ahtCall = deserialiseResponse(AhtCall.class);
+        assertThat(ahtCall.getValue(), is("0x"));
     }
 
     @Test
-    public void testEthEstimateGas() {
+    public void testAhtEstimateGas() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -499,12 +498,12 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthEstimateGas ethEstimateGas = deserialiseResponse(EthEstimateGas.class);
-        assertThat(ethEstimateGas.getAmountUsed(), equalTo(BigInteger.valueOf(21000)));
+        AhtEstimateGas ahtEstimateGas = deserialiseResponse(AhtEstimateGas.class);
+        assertThat(ahtEstimateGas.getAmountUsed(), equalTo(BigInteger.valueOf(21000)));
     }
 
     @Test
-    public void testEthBlockTransactionHashes() {
+    public void testAhtBlockTransactionHashes() {
         //CHECKSTYLE:OFF
         buildResponse(
                 "{\n"
@@ -547,8 +546,8 @@ public class ResponseTest extends ResponseTester {
         );
         //CHECKSTYLE:ON
 
-        EthBlock ethBlock = deserialiseResponse(EthBlock.class);
-        EthBlock.Block block = new EthBlock.Block(
+        AhtBlock ahtBlock = deserialiseResponse(AhtBlock.class);
+        AhtBlock.Block block = new AhtBlock.Block(
                 "0x1b4",
                 "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331",
                 "0x9646252be9520f6e71339a8df9c55e4d7619deeb018d2a3f2d21fc165dde5eb5",
@@ -568,11 +567,11 @@ public class ResponseTest extends ResponseTester {
                 "0x9f759",
                 "0x9f759",
                 "0x54e34e8e",
-                Arrays.<EthBlock.TransactionResult>asList(
-                        new EthBlock.TransactionHash(
+                Arrays.<AhtBlock.TransactionResult>asList(
+                        new AhtBlock.TransactionHash(
                                 "0xe670ec64341771606e55d6b4ca35a1a6b"
                                         + "75ee3d5145a99d05921026d1527331"),
-                        new EthBlock.TransactionHash(
+                        new AhtBlock.TransactionHash(
                                 "0xd5855eb08b3387c0af375e9cdb6acfc05eb8f519e419b874b6ff2ffda7ed1df")
                 ),
                 Arrays.asList(
@@ -584,11 +583,11 @@ public class ResponseTest extends ResponseTester {
                         "0x39a3eb432fbef1fc"
                 )
         );
-        assertThat(ethBlock.getBlock(), equalTo(block));
+        assertThat(ahtBlock.getBlock(), equalTo(block));
     }
 
     @Test
-    public void testEthBlockFullTransactionsParity() {
+    public void testAhtBlockFullTransactionsParity() {
         //CHECKSTYLE:OFF
         buildResponse(
                 "{\n"
@@ -646,8 +645,8 @@ public class ResponseTest extends ResponseTester {
         );
         //CHECKSTYLE:ON
 
-        EthBlock ethBlock = deserialiseResponse(EthBlock.class);
-        EthBlock.Block block = new EthBlock.Block(
+        AhtBlock ahtBlock = deserialiseResponse(AhtBlock.class);
+        AhtBlock.Block block = new AhtBlock.Block(
                 "0x1b4",
                 "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331",
                 "0x9646252be9520f6e71339a8df9c55e4d7619deeb018d2a3f2d21fc165dde5eb5",
@@ -668,7 +667,7 @@ public class ResponseTest extends ResponseTester {
                 "0x9f759",
                 "0x54e34e8e",
                 //CHECKSTYLE:OFF
-                Arrays.<EthBlock.TransactionResult>asList(new EthBlock.TransactionObject(
+                Arrays.<AhtBlock.TransactionResult>asList(new AhtBlock.TransactionObject(
                                 "0xc6ef2fc5426d6ad6fd9e2a26abeab0aa2411b7ab17f30a99d3cb96aed1d1055b",
                                 "0x",
                                 "0xbeab0aa2411b7ab17f30a99d3cb9c6ef2fc5426d6ad6fd9e2a26a6aed1d1055b",
@@ -698,12 +697,12 @@ public class ResponseTest extends ResponseTester {
                         "0x39a3eb432fbef1fc"
                 )
         );
-        assertThat(ethBlock.getBlock(), equalTo(block));
+        assertThat(ahtBlock.getBlock(), equalTo(block));
     }
 
-    // Remove once Geth & Parity return the same v value in transactions
+    // Remove once Gaht & Parity return the same v value in transactions
     @Test
-    public void testEthBlockFullTransactionsGeth() {
+    public void testAhtBlockFullTransactionsGaht() {
         //CHECKSTYLE:OFF
         buildResponse(
                 "{\n"
@@ -761,8 +760,8 @@ public class ResponseTest extends ResponseTester {
         );
         //CHECKSTYLE:ON
 
-        EthBlock ethBlock = deserialiseResponse(EthBlock.class);
-        EthBlock.Block block = new EthBlock.Block(
+        AhtBlock ahtBlock = deserialiseResponse(AhtBlock.class);
+        AhtBlock.Block block = new AhtBlock.Block(
                 "0x1b4",
                 "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331",
                 "0x9646252be9520f6e71339a8df9c55e4d7619deeb018d2a3f2d21fc165dde5eb5",
@@ -783,7 +782,7 @@ public class ResponseTest extends ResponseTester {
                 "0x9f759",
                 "0x54e34e8e",
                 //CHECKSTYLE:OFF
-                Arrays.<EthBlock.TransactionResult>asList(new EthBlock.TransactionObject(
+                Arrays.<AhtBlock.TransactionResult>asList(new AhtBlock.TransactionObject(
                                 "0xc6ef2fc5426d6ad6fd9e2a26abeab0aa2411b7ab17f30a99d3cb96aed1d1055b",
                                 "0x",
                                 "0xbeab0aa2411b7ab17f30a99d3cb9c6ef2fc5426d6ad6fd9e2a26a6aed1d1055b",
@@ -813,23 +812,23 @@ public class ResponseTest extends ResponseTester {
                         "0x39a3eb432fbef1fc"
                 )
         );
-        assertThat(ethBlock.getBlock(), equalTo(block));
+        assertThat(ahtBlock.getBlock(), equalTo(block));
     }
 
     @Test
-    public void testEthBlockNull() {
+    public void testAhtBlockNull() {
         buildResponse(
                 "{\n"
                         + "  \"result\": null\n"
                         + "}"
         );
 
-        EthBlock ethBlock = deserialiseResponse(EthBlock.class);
-        assertNull(ethBlock.getBlock());
+        AhtBlock ahtBlock = deserialiseResponse(AhtBlock.class);
+        assertNull(ahtBlock.getBlock());
     }
 
     @Test
-    public void testEthTransaction() {
+    public void testAhtTransaction() {
         //CHECKSTYLE:OFF
         buildResponse(
                 "{\n"
@@ -877,24 +876,24 @@ public class ResponseTest extends ResponseTester {
         );
         //CHECKSTYLE:ON
 
-        EthTransaction ethTransaction = deserialiseResponse(EthTransaction.class);
-        assertThat(ethTransaction.getTransaction(), equalTo(transaction));
+        AhtTransaction ahtTransaction = deserialiseResponse(AhtTransaction.class);
+        assertThat(ahtTransaction.getTransaction(), equalTo(transaction));
     }
 
     @Test
-    public void testEthTransactionNull() {
+    public void testAhtTransactionNull() {
         buildResponse(
                 "{\n"
                         + "  \"result\": null\n"
                         + "}"
         );
 
-        EthTransaction ethTransaction = deserialiseResponse(EthTransaction.class);
-        assertNull(ethTransaction.getTransaction());
+        AhtTransaction ahtTransaction = deserialiseResponse(AhtTransaction.class);
+        assertNull(ahtTransaction.getTransaction());
     }
 
     @Test
-    public void testeEthGetTransactionReceiptBeforeByzantium() {
+    public void testeAhtGetTransactionReceiptBeforeByzantium() {
         //CHECKSTYLE:OFF
         buildResponse(
                 "{\n"
@@ -962,14 +961,14 @@ public class ResponseTest extends ResponseTester {
                 );
         //CHECKSTYLE:ON
 
-        EthGetTransactionReceipt ethGetTransactionReceipt = deserialiseResponse(
-                EthGetTransactionReceipt.class);
-        assertThat(ethGetTransactionReceipt.getTransactionReceipt(),
+        AhtGetTransactionReceipt ahtGetTransactionReceipt = deserialiseResponse(
+                AhtGetTransactionReceipt.class);
+        assertThat(ahtGetTransactionReceipt.getTransactionReceipt(),
                 equalTo(transactionReceipt));
     }
 
     @Test
-    public void testeEthGetTransactionReceiptAfterByzantium() {
+    public void testeAhtGetTransactionReceiptAfterByzantium() {
         //CHECKSTYLE:OFF
         buildResponse(
                 "{\n"
@@ -1037,14 +1036,14 @@ public class ResponseTest extends ResponseTester {
                 );
         //CHECKSTYLE:ON
 
-        EthGetTransactionReceipt ethGetTransactionReceipt = deserialiseResponse(
-                EthGetTransactionReceipt.class);
-        assertThat(ethGetTransactionReceipt.getTransactionReceipt(),
+        AhtGetTransactionReceipt ahtGetTransactionReceipt = deserialiseResponse(
+                AhtGetTransactionReceipt.class);
+        assertThat(ahtGetTransactionReceipt.getTransactionReceipt(),
                 equalTo(transactionReceipt));
     }
 
     @Test
-    public void testEthGetCompilers() {
+    public void testAhtGetCompilers() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -1053,14 +1052,14 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthGetCompilers ethGetCompilers = deserialiseResponse(EthGetCompilers.class);
-        assertThat(ethGetCompilers.getCompilers(), equalTo(Arrays.asList(
+        AhtGetCompilers ahtGetCompilers = deserialiseResponse(AhtGetCompilers.class);
+        assertThat(ahtGetCompilers.getCompilers(), equalTo(Arrays.asList(
                 "solidity", "lll", "serpent"
         )));
     }
 
     @Test
-    public void testEthCompileSolidity() {
+    public void testAhtCompileSolidity() {
         //CHECKSTYLE:OFF
         buildResponse(
                 "{\n"
@@ -1109,13 +1108,13 @@ public class ResponseTest extends ResponseTester {
         );
         //CHECKSTYLE:OFF
 
-        Map<String, EthCompileSolidity.Code> compiledSolidity =
-                new HashMap<String, EthCompileSolidity.Code>(1);
-        compiledSolidity.put("test", new EthCompileSolidity.Code(
+        Map<String, AhtCompileSolidity.Code> compiledSolidity =
+                new HashMap<String, AhtCompileSolidity.Code>(1);
+        compiledSolidity.put("test", new AhtCompileSolidity.Code(
                 //CHECKSTYLE:OFF
                 "0x605280600c6000396000f3006000357c010000000000000000000000000000000000000000000000000000000090048063c6888fa114602e57005b60376004356041565b8060005260206000f35b6000600782029050604d565b91905056",
                 //CHECKSTYLE:ON
-                new EthCompileSolidity.SolidityInfo(
+                new AhtCompileSolidity.SolidityInfo(
                         "contract test {\n\tfunction multiply(uint a) returns(uint d) {\n"
                                 + "\t\treturn a * 7;\n\t}\n}\n",
                         "Solidity",
@@ -1131,17 +1130,17 @@ public class ResponseTest extends ResponseTester {
                                 "function",
                                 false
                         )),
-                        new EthCompileSolidity.Documentation(),
-                        new EthCompileSolidity.Documentation()
+                        new AhtCompileSolidity.Documentation(),
+                        new AhtCompileSolidity.Documentation()
                 )
         ));
 
-        EthCompileSolidity ethCompileSolidity = deserialiseResponse(EthCompileSolidity.class);
-        assertThat(ethCompileSolidity.getCompiledSolidity(), equalTo(compiledSolidity));
+        AhtCompileSolidity ahtCompileSolidity = deserialiseResponse(AhtCompileSolidity.class);
+        assertThat(ahtCompileSolidity.getCompiledSolidity(), equalTo(compiledSolidity));
     }
 
     @Test
-    public void testEthCompileLLL() {
+    public void testAhtCompileLLL() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -1152,14 +1151,14 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthCompileLLL ethCompileLLL = deserialiseResponse(EthCompileLLL.class);
-        assertThat(ethCompileLLL.getCompiledSourceCode(),
+        AhtCompileLLL ahtCompileLLL = deserialiseResponse(AhtCompileLLL.class);
+        assertThat(ahtCompileLLL.getCompiledSourceCode(),
                 is("0x603880600c6000396000f3006001600060e060020a600035048063c6888fa114601857005b60"
                         + "21600435602b565b8060005260206000f35b600081600702905091905056"));
     }
 
     @Test
-    public void testEthCompileSerpent() {
+    public void testAhtCompileSerpent() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -1170,14 +1169,14 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthCompileSerpent ethCompileSerpent = deserialiseResponse(EthCompileSerpent.class);
-        assertThat(ethCompileSerpent.getCompiledSourceCode(),
+        AhtCompileSerpent ahtCompileSerpent = deserialiseResponse(AhtCompileSerpent.class);
+        assertThat(ahtCompileSerpent.getCompiledSourceCode(),
                 is("0x603880600c6000396000f3006001600060e060020a600035048063c6888fa114601857005b60"
                         + "21600435602b565b8060005260206000f35b600081600702905091905056"));
     }
 
     @Test
-    public void testEthFilter() {
+    public void testahtFilter() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -1186,12 +1185,12 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthFilter ethFilter = deserialiseResponse(EthFilter.class);
-        assertThat(ethFilter.getFilterId(), is(BigInteger.valueOf(1)));
+        AhtFilter AhtFilter = deserialiseResponse(AhtFilter.class);
+        assertThat(AhtFilter.getFilterId(), is(BigInteger.valueOf(1)));
     }
 
     @Test
-    public void testEthUninstallFilter() {
+    public void testAhtUninstallFilter() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -1200,12 +1199,12 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthUninstallFilter ethUninstallFilter = deserialiseResponse(EthUninstallFilter.class);
-        assertThat(ethUninstallFilter.isUninstalled(), is(true));
+        AhtUninstallFilter ahtUninstallFilter = deserialiseResponse(AhtUninstallFilter.class);
+        assertThat(ahtUninstallFilter.isUninstalled(), is(true));
     }
 
     @Test
-    public void testEthLog() {
+    public void testAhtLog() {
         //CHECKSTYLE:OFF
         buildResponse(
                 "{\n"
@@ -1227,8 +1226,8 @@ public class ResponseTest extends ResponseTester {
         );
         //CHECKSTYLE:ON
 
-        List<EthLog.LogResult> logs = Collections.<EthLog.LogResult>singletonList(
-                new EthLog.LogObject(
+        List<AhtLog.LogResult> logs = Collections.<AhtLog.LogResult>singletonList(
+                new AhtLog.LogObject(
                         false,
                         "0x1",
                         "0x0",
@@ -1244,12 +1243,12 @@ public class ResponseTest extends ResponseTester {
                 )
         );
 
-        EthLog ethLog = deserialiseResponse(EthLog.class);
-        assertThat(ethLog.getLogs(), is(logs));
+        AhtLog ahtLog = deserialiseResponse(AhtLog.class);
+        assertThat(ahtLog.getLogs(), is(logs));
     }
 
     @Test
-    public void testEthGetWork() {
+    public void testAhtGetWork() {
         //CHECKSTYLE:OFF
         buildResponse(
                 "{\n"
@@ -1264,17 +1263,17 @@ public class ResponseTest extends ResponseTester {
         );
         //CHECKSTYLE:ON
 
-        EthGetWork ethGetWork = deserialiseResponse(EthGetWork.class);
-        assertThat(ethGetWork.getCurrentBlockHeaderPowHash(),
+        AhtGetWork ahtGetWork = deserialiseResponse(AhtGetWork.class);
+        assertThat(ahtGetWork.getCurrentBlockHeaderPowHash(),
                 is("0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"));
-        assertThat(ethGetWork.getSeedHashForDag(),
+        assertThat(ahtGetWork.getSeedHashForDag(),
                 is("0x5EED00000000000000000000000000005EED0000000000000000000000000000"));
-        assertThat(ethGetWork.getBoundaryCondition(),
+        assertThat(ahtGetWork.getBoundaryCondition(),
                 is("0xd1ff1c01710000000000000000000000d1ff1c01710000000000000000000000"));
     }
 
     @Test
-    public void testEthSubmitWork() {
+    public void testAhtSubmitWork() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -1283,12 +1282,12 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthSubmitWork ethSubmitWork = deserialiseResponse(EthSubmitWork.class);
-        assertThat(ethSubmitWork.solutionValid(), is(true));
+        AhtSubmitWork ahtSubmitWork = deserialiseResponse(AhtSubmitWork.class);
+        assertThat(ahtSubmitWork.solutionValid(), is(true));
     }
 
     @Test
-    public void testEthSubmitHashrate() {
+    public void testAhtSubmitHashrate() {
         buildResponse(
                 "{\n"
                         + "  \"id\":1,\n"
@@ -1297,8 +1296,8 @@ public class ResponseTest extends ResponseTester {
                         + "}"
         );
 
-        EthSubmitHashrate ethSubmitHashrate = deserialiseResponse(EthSubmitHashrate.class);
-        assertThat(ethSubmitHashrate.submissionSuccessful(), is(true));
+        AhtSubmitHashrate ahtSubmitHashrate = deserialiseResponse(AhtSubmitHashrate.class);
+        assertThat(ahtSubmitHashrate.submissionSuccessful(), is(true));
     }
 
     @Test

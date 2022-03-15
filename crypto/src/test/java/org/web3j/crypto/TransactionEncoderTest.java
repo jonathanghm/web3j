@@ -19,7 +19,7 @@ public class TransactionEncoderTest {
     @Test
     public void testSignMessage() {
         byte[] signedMessage = TransactionEncoder.signMessage(
-                createEtherTransaction(), SampleKeys.CREDENTIALS);
+                createAhtTransaction(), SampleKeys.CREDENTIALS);
         String hexMessage = Numeric.toHexString(signedMessage);
         assertThat(hexMessage,
                 is("0xf85580010a840add5355887fffffffffffffff80"
@@ -29,8 +29,8 @@ public class TransactionEncoderTest {
     }
 
     @Test
-    public void testEtherTransactionAsRlpValues() {
-        List<RlpType> rlpStrings = TransactionEncoder.asRlpValues(createEtherTransaction(),
+    public void testAhtTransactionAsRlpValues() {
+        List<RlpType> rlpStrings = TransactionEncoder.asRlpValues(createAhtTransaction(),
                 new Sign.SignatureData((byte) 0, new byte[32], new byte[32]));
         assertThat(rlpStrings.size(), is(9));
         assertThat(rlpStrings.get(3),
@@ -56,7 +56,7 @@ public class TransactionEncoderTest {
 
     @Test
     public void testEip155Transaction() {
-        // https://github.com/ethereum/EIPs/issues/155
+        // https://github.com/bowhead/EIPs/issues/155
         Credentials credentials = Credentials.create(
                 "0x4646464646464646464646464646464646464646464646464646464646464646");
 
@@ -69,8 +69,8 @@ public class TransactionEncoderTest {
                                 + "5c9f3dc64214b297fb1966a3b6d83")));
     }
 
-    private static RawTransaction createEtherTransaction() {
-        return RawTransaction.createEtherTransaction(
+    private static RawTransaction createAhtTransaction() {
+        return RawTransaction.createAhtTransaction(
                 BigInteger.ZERO, BigInteger.ONE, BigInteger.TEN, "0xadd5355",
                 BigInteger.valueOf(Long.MAX_VALUE));
     }
@@ -82,7 +82,7 @@ public class TransactionEncoderTest {
     }
 
     private static RawTransaction createEip155RawTransaction() {
-        return RawTransaction.createEtherTransaction(
+        return RawTransaction.createAhtTransaction(
                 BigInteger.valueOf(9), BigInteger.valueOf(20000000000L),
                 BigInteger.valueOf(21000), "0x3535353535353535353535353535353535353535",
                 BigInteger.valueOf(1000000000000000000L));

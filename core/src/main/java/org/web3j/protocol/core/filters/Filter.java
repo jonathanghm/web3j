@@ -15,9 +15,9 @@ import org.web3j.protocol.Web3j;
 
 import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.Response;
-import org.web3j.protocol.core.methods.response.EthFilter;
-import org.web3j.protocol.core.methods.response.EthLog;
-import org.web3j.protocol.core.methods.response.EthUninstallFilter;
+import org.web3j.protocol.core.methods.response.AhtFilter;
+import org.web3j.protocol.core.methods.response.AhtLog;
+import org.web3j.protocol.core.methods.response.AhtUninstallFilter;
 
 
 /**
@@ -41,12 +41,12 @@ public abstract class Filter<T> {
 
     public void run(ScheduledExecutorService scheduledExecutorService, long blockTime) {
         try {
-            final EthFilter ethFilter = sendRequest();
-            if (ethFilter.hasError()) {
-                throwException(ethFilter.getError());
+            final AhtFilter AhtFilter = sendRequest();
+            if (AhtFilter.hasError()) {
+                throwException(AhtFilter.getError());
             }
 
-            filterId = ethFilter.getFilterId();
+            filterId = AhtFilter.getFilterId();
 
             scheduledExecutorService.submit(new Runnable() {
                 @Override
@@ -57,10 +57,10 @@ public abstract class Filter<T> {
 
             /*
             We want the filter to be resilient against client issues. On numerous occasions
-            users have reported socket timeout exceptions when connected over HTTP to Geth and
+            users have reported socket timeout exceptions when connected over HTTP to Gaht and
             Parity clients. For examples, refer to
             https://github.com/web3j/web3j/issues/144 and
-            https://github.com/ethereum/go-ethereum/issues/15243.
+            https://github.com/bowhead/go-bowhead/issues/15243.
 
             Hence we consume errors and log them as errors, allowing our polling for changes to
             resume. The downside of this approach is that users will not be notified of
@@ -77,7 +77,7 @@ public abstract class Filter<T> {
                         @Override
                         public void run() {
                             try {
-                                Filter.this.pollFilter(ethFilter);
+                                Filter.this.pollFilter(AhtFilter);
                             } catch (Throwable e) {
                                 // All exceptions must be caught, otherwise our job terminates without
                                 // any notification
@@ -93,49 +93,49 @@ public abstract class Filter<T> {
 
     private void getInitialFilterLogs() {
         try {
-            Request<?, EthLog> request = this.getFilterLogs(this.filterId);
-            EthLog ethLog = null;
+            Request<?, AhtLog> request = this.getFilterLogs(this.filterId);
+            AhtLog ahtLog = null;
             if (request != null) {
-                ethLog = request.send();
+                ahtLog = request.send();
             } else {
-                ethLog = new EthLog();
-                ethLog.setResult(Collections.<EthLog.LogResult>emptyList());
+                ahtLog = new AhtLog();
+                ahtLog.setResult(Collections.<AhtLog.LogResult>emptyList());
             }
-            process(ethLog.getLogs());
+            process(ahtLog.getLogs());
 
         } catch (IOException e) {
             throwException(e);
         }
     }
 
-    private void pollFilter(EthFilter ethFilter) {
-        EthLog ethLog = null;
+    private void pollFilter(AhtFilter AhtFilter) {
+        AhtLog ahtLog = null;
         try {
-            ethLog = web3j.ethGetFilterChanges(filterId).send();
+            ahtLog = web3j.ahtGetFilterChanges(filterId).send();
         } catch (IOException e) {
             throwException(e);
         }
-        if (ethLog.hasError()) {
-            throwException(ethLog.getError());
+        if (ahtLog.hasError()) {
+            throwException(ahtLog.getError());
         } else {
-            process(ethLog.getLogs());
+            process(ahtLog.getLogs());
         }
     }
 
-    abstract EthFilter sendRequest() throws IOException;
+    abstract AhtFilter sendRequest() throws IOException;
 
-    abstract void process(List<EthLog.LogResult> logResults);
+    abstract void process(List<AhtLog.LogResult> logResults);
 
     public void cancel() {
         schedule.cancel(false);
 
         try {
-            EthUninstallFilter ethUninstallFilter = web3j.ethUninstallFilter(filterId).send();
-            if (ethUninstallFilter.hasError()) {
-                throwException(ethUninstallFilter.getError());
+            AhtUninstallFilter ahtUninstallFilter = web3j.ahtUninstallFilter(filterId).send();
+            if (ahtUninstallFilter.hasError()) {
+                throwException(ahtUninstallFilter.getError());
             }
 
-            if (!ethUninstallFilter.isUninstalled()) {
+            if (ahtUninstallFilter.isUninstalled()) {
                 throw new FilterException("Filter with id '" + filterId + "' failed to uninstall");
             }
         } catch (IOException e) {
@@ -146,12 +146,12 @@ public abstract class Filter<T> {
     /**
      * Retrieves historic filters for the filter with the given id.
      * Getting historic logs is not supported by all filters.
-     * If not the method should return an empty EthLog object
+     * If not the .ahtod should return an empty AhtLog object
      *
      * @param filterId Id of the filter for which the historic log should be retrieved
      * @return Historic logs, or an empty optional if the filter cannot retrieve historic logs
      */
-    protected abstract Request<?, EthLog> getFilterLogs(BigInteger filterId);
+    protected abstract Request<?, AhtLog> getFilterLogs(BigInteger filterId);
 
     void throwException(Response.Error error) {
         throw new FilterException("Invalid request: "

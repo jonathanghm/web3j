@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import org.web3j.utils.Numeric;
 
 /**
- * Transaction object used by both {@link EthTransaction} and {@link EthBlock}.
+ * Transaction object used by both {@link AhtTransaction} and {@link AhtBlock}.
  */
 public class Transaction {
     private String hash;
@@ -212,9 +212,9 @@ public class Transaction {
     //     this.v = v;
     // }
 
-    // Workaround until Geth & Parity return consistent values. At present
-    // Parity returns a byte value, Geth returns a hex-encoded string
-    // https://github.com/ethereum/go-ethereum/issues/3339
+    // Workaround until Gaht & Parity return consistent values. At present
+    // Parity returns a byte value, Gaht returns a hex-encoded string
+    // https://github.com/bowhead/go-bowhead/issues/3339
     public void setV(Object v) {
         if (v instanceof String) {
             this.v = Numeric.toBigInt((String) v).intValue();

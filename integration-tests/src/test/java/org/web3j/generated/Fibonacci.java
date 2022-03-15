@@ -15,7 +15,7 @@ import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.RemoteCall;
-import org.web3j.protocol.core.methods.request.EthFilter;
+import org.web3j.protocol.core.methods.request.AhtFilter;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tx.Contract;
@@ -63,9 +63,9 @@ public class Fibonacci extends Contract {
         final Event event = new Event("Notify", 
                 Arrays.<TypeReference<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}, new TypeReference<Uint256>() {}));
-        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
+        AhtFilter filter = new AhtFilter(startBlock, endBlock, getContractAddress());
         filter.addSingleTopic(EventEncoder.encode(event));
-        return web3j.ethLogObservable(filter).map(new Func1<Log, NotifyEventResponse>() {
+        return web3j.ahtLogObservable(filter).map(new Func1<Log, NotifyEventResponse>() {
             @Override
             public NotifyEventResponse call(Log log) {
                 Contract.EventValuesWithLog eventValues = extractEventParametersWithLog(event, log);

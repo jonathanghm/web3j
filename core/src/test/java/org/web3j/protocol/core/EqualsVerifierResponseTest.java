@@ -5,10 +5,10 @@ import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 
 import org.web3j.protocol.core.methods.response.AbiDefinition;
-import org.web3j.protocol.core.methods.response.EthBlock;
-import org.web3j.protocol.core.methods.response.EthCompileSolidity;
-import org.web3j.protocol.core.methods.response.EthLog;
-import org.web3j.protocol.core.methods.response.EthSyncing;
+import org.web3j.protocol.core.methods.response.AhtBlock;
+import org.web3j.protocol.core.methods.response.AhtCompileSolidity;
+import org.web3j.protocol.core.methods.response.AhtLog;
+import org.web3j.protocol.core.methods.response.AhtSyncing;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.ShhMessages;
 import org.web3j.protocol.core.methods.response.Transaction;
@@ -18,7 +18,7 @@ public class EqualsVerifierResponseTest {
 
     @Test
     public void testBlock() {
-        EqualsVerifier.forClass(EthBlock.Block.class)
+        EqualsVerifier.forClass(AhtBlock.Block.class)
                 .suppress(Warning.NONFINAL_FIELDS)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();
@@ -58,7 +58,7 @@ public class EqualsVerifierResponseTest {
 
     @Test
     public void testSolidityInfo() {
-        EqualsVerifier.forClass(EthCompileSolidity.SolidityInfo.class)
+        EqualsVerifier.forClass(AhtCompileSolidity.SolidityInfo.class)
                 .suppress(Warning.NONFINAL_FIELDS)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();
@@ -66,7 +66,7 @@ public class EqualsVerifierResponseTest {
 
     @Test
     public void testSyncing() {
-        EqualsVerifier.forClass(EthSyncing.Syncing.class)
+        EqualsVerifier.forClass(AhtSyncing.Syncing.class)
                 .suppress(Warning.NONFINAL_FIELDS)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();
@@ -90,7 +90,7 @@ public class EqualsVerifierResponseTest {
 
     @Test
     public void testHash() {
-        EqualsVerifier.forClass(EthLog.Hash.class)
+        EqualsVerifier.forClass(AhtLog.Hash.class)
                 .suppress(Warning.NONFINAL_FIELDS)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();
@@ -98,7 +98,7 @@ public class EqualsVerifierResponseTest {
 
     @Test
     public void testCode() {
-        EqualsVerifier.forClass(EthCompileSolidity.Code.class)
+        EqualsVerifier.forClass(AhtCompileSolidity.Code.class)
                 .suppress(Warning.NONFINAL_FIELDS)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();
@@ -106,7 +106,7 @@ public class EqualsVerifierResponseTest {
 
     @Test
     public void testTransactionHash() {
-        EqualsVerifier.forClass(EthBlock.TransactionHash.class)
+        EqualsVerifier.forClass(AhtBlock.TransactionHash.class)
                 .suppress(Warning.NONFINAL_FIELDS)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();
@@ -114,7 +114,7 @@ public class EqualsVerifierResponseTest {
 
     @Test
     public void testCompiledSolidityCode() {
-        EqualsVerifier.forClass(EthCompileSolidity.Code.class)
+        EqualsVerifier.forClass(AhtCompileSolidity.Code.class)
                 .suppress(Warning.NONFINAL_FIELDS)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();
@@ -122,7 +122,7 @@ public class EqualsVerifierResponseTest {
 
     @Test
     public void testDocumentation() {
-        EqualsVerifier.forClass(EthCompileSolidity.Documentation.class)
+        EqualsVerifier.forClass(AhtCompileSolidity.Documentation.class)
                 .suppress(Warning.NONFINAL_FIELDS)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();

@@ -24,7 +24,7 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.methods.request.Transaction;
-import org.web3j.protocol.core.methods.response.EthGetCode;
+import org.web3j.protocol.core.methods.response.AhtGetCode;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.exceptions.TransactionException;
@@ -37,7 +37,7 @@ import org.web3j.utils.Numeric;
  */
 public abstract class Contract extends ManagedTransaction {
 
-    // https://www.reddit.com/r/ethereum/comments/5g8ia6/attention_miners_we_recommend_raising_gas_limit/
+    // https://www.reddit.com/r/bowhead/comments/5g8ia6/attention_miners_we_recommend_raising_gas_limit/
     public static final BigInteger GAS_LIMIT = BigInteger.valueOf(4300000);
 
     protected final String contractBinary;
@@ -118,7 +118,7 @@ public abstract class Contract extends ManagedTransaction {
      * is in fact the contract you believe it is.
      *
      * <p>This method uses the
-     * <a href="https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_getcode">eth_getCode</a> method
+     * <a href="https://github.com/bowhead/wiki/wiki/JSON-RPC#aht_getcode">aht_getCode</a> method
      * to get the contract byte code and validates it against the byte code stored in this smart
      * contract wrapper.
      *
@@ -132,14 +132,14 @@ public abstract class Contract extends ManagedTransaction {
                             + "contract wrapper with web3j v2.2.0+");
         }
 
-        EthGetCode ethGetCode = web3j
-                .ethGetCode(contractAddress, DefaultBlockParameterName.LATEST)
+        AhtGetCode ahtGetCode = web3j
+                .ahtGetCode(contractAddress, DefaultBlockParameterName.LATEST)
                 .send();
-        if (ethGetCode.hasError()) {
+        if (ahtGetCode.hasError()) {
             return false;
         }
 
-        String code = Numeric.cleanHexPrefix(ethGetCode.getCode());
+        String code = Numeric.cleanHexPrefix(ahtGetCode.getCode());
         // There may be multiple contracts in the Solidity bytecode, hence we only check for a
         // match with a subset
         return !code.isEmpty() && contractBinary.contains(code);
@@ -165,13 +165,13 @@ public abstract class Contract extends ManagedTransaction {
     private List<Type> executeCall(
             Function function) throws IOException {
         String encodedFunction = FunctionEncoder.encode(function);
-        org.web3j.protocol.core.methods.response.EthCall ethCall = web3j.ethCall(
-                Transaction.createEthCallTransaction(
+        org.web3j.protocol.core.methods.response.AhtCall ahtCall = web3j.ahtCall(
+                Transaction.createAhtCallTransaction(
                         transactionManager.getFromAddress(), contractAddress, encodedFunction),
                 DefaultBlockParameterName.LATEST)
                 .send();
 
-        String value = ethCall.getValue();
+        String value = ahtCall.getValue();
         return FunctionReturnDecoder.decode(value, function.getOutputParameters());
     }
 
@@ -218,25 +218,25 @@ public abstract class Contract extends ManagedTransaction {
     }
 
     private TransactionReceipt executeTransaction(
-            Function function, BigInteger weiValue)
+            Function function, BigInteger cellValue)
             throws IOException, TransactionException {
-        return executeTransaction(FunctionEncoder.encode(function), weiValue);
+        return executeTransaction(FunctionEncoder.encode(function), cellValue);
     }
 
     /**
      * Given the duration required to execute a transaction.
      *
      * @param data  to send in transaction
-     * @param weiValue in Wei to send in transaction
+     * @param cellValue in Cell to send in transaction
      * @return transaction receipt
      * @throws IOException                 if the call to the node fails
      * @throws TransactionException if the transaction was not mined while waiting
      */
     TransactionReceipt executeTransaction(
-            String data, BigInteger weiValue)
+            String data, BigInteger cellValue)
             throws TransactionException, IOException {
 
-        return send(contractAddress, data, weiValue, gasPrice, gasLimit);
+        return send(contractAddress, data, cellValue, gasPrice, gasLimit);
     }
 
     protected <T extends Type> RemoteCall<T> executeRemoteCallSingleValueReturn(
@@ -278,11 +278,11 @@ public abstract class Contract extends ManagedTransaction {
     }
 
     protected RemoteCall<TransactionReceipt> executeRemoteCallTransaction(
-            final Function function, final BigInteger weiValue) {
+            final Function function, final BigInteger cellValue) {
         return new RemoteCall<TransactionReceipt>(new Callable<TransactionReceipt>() {
             @Override
             public TransactionReceipt call() throws Exception {
-                return Contract.this.executeTransaction(function, weiValue);
+                return Contract.this.executeTransaction(function, cellValue);
             }
         });
     }

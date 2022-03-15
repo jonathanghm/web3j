@@ -5,7 +5,7 @@ import java.nio.charset.Charset;
 import org.junit.Test;
 
 import org.web3j.protocol.ResponseTester;
-import org.web3j.protocol.core.methods.response.EthBlock;
+import org.web3j.protocol.core.methods.response.AhtBlock;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -40,9 +40,9 @@ public class RawResponseTest extends ResponseTester {
 
         buildResponse(LARGE_RAW_RESPONSE);
 
-        EthBlock ethBlock = deserialiseResponse(EthBlock.class);
+        AhtBlock ahtBlock = deserialiseResponse(AhtBlock.class);
 
-        assertThat(ethBlock.getRawResponse(), is(LARGE_RAW_RESPONSE));
+        assertThat(ahtBlock.getRawResponse(), is(LARGE_RAW_RESPONSE));
     }
 
     @Test

@@ -15,11 +15,11 @@ import org.web3j.utils.Convert;
 import org.web3j.utils.Numeric;
 
 /**
- * Class for performing Ether transactions on the Ethereum blockchain.
+ * Class for performing Aht transactions on the Bowhead blockchain.
  */
 public class Transfer extends ManagedTransaction {
 
-    // This is the cost to send Ether between parties
+    // This is the cost to send Aht between parties
     public static final BigInteger GAS_LIMIT = BigInteger.valueOf(21000);
 
     public Transfer(Web3j web3j, TransactionManager transactionManager) {
@@ -54,15 +54,15 @@ public class Transfer extends ManagedTransaction {
             BigInteger gasLimit) throws IOException, InterruptedException,
             TransactionException {
 
-        BigDecimal weiValue = Convert.toWei(value, unit);
-        if (!Numeric.isIntegerValue(weiValue)) {
+        BigDecimal cellValue = Convert.toCell(value, unit);
+        if (!Numeric.isIntegerValue(cellValue)) {
             throw new UnsupportedOperationException(
-                    "Non decimal Wei value provided: " + value + " " + unit.toString()
-                            + " = " + weiValue + " Wei");
+                    "Non decimal Cell value provided: " + value + " " + unit.toString()
+                            + " = " + cellValue + " Cell");
         }
 
         String resolvedAddress = ensResolver.resolve(toAddress);
-        return send(resolvedAddress, "", weiValue.toBigIntegerExact(), gasPrice, gasLimit);
+        return send(resolvedAddress, "", cellValue.toBigIntegerExact(), gasPrice, gasLimit);
     }
 
     public static RemoteCall<TransactionReceipt> sendFunds(

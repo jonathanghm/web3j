@@ -13,10 +13,10 @@ import org.web3j.protocol.admin.methods.response.PersonalUnlockAccount;
 import org.web3j.protocol.core.JsonRpc2_0Web3j;
 import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.methods.request.Transaction;
-import org.web3j.protocol.core.methods.response.EthSendTransaction;
+import org.web3j.protocol.core.methods.response.AhtSendTransaction;
 
 /**
- * JSON-RPC 2.0 factory implementation for common Parity and Geth.
+ * JSON-RPC 2.0 factory implementation for common Parity and Gaht.
  */
 public class JsonRpc2_0Admin extends JsonRpc2_0Web3j implements Admin {
 
@@ -52,7 +52,7 @@ public class JsonRpc2_0Admin extends JsonRpc2_0Web3j implements Admin {
         
         if (duration != null) {
             // Parity has a bug where it won't support a duration
-            // See https://github.com/ethcore/parity/issues/1215
+            // See https://github.com/ahtcore/parity/issues/1215
             attributes.add(duration.longValue());
         } else {
             // we still need to include the null value, otherwise Parity rejects request
@@ -74,13 +74,13 @@ public class JsonRpc2_0Admin extends JsonRpc2_0Web3j implements Admin {
     }
     
     @Override
-    public Request<?, EthSendTransaction> personalSendTransaction(
+    public Request<?, AhtSendTransaction> personalSendTransaction(
             Transaction transaction, String passphrase) {
-        return new Request<Object, EthSendTransaction>(
+        return new Request<Object, AhtSendTransaction>(
                 "personal_sendTransaction",
                 Arrays.asList(transaction, passphrase),
                 web3jService,
-                EthSendTransaction.class);
+                AhtSendTransaction.class);
     }
     
 }
